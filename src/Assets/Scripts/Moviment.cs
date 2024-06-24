@@ -12,6 +12,7 @@ public class Moviment : MonoBehaviour
     [SerializeField] private LayerMask jumpLayer;
     private bool inFloor;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     private int movendoHash = Animator.StringToHash("movendo");
     private int pulandoHash = Animator.StringToHash("pulando");
@@ -20,6 +21,7 @@ public class Moviment : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D> ();
         animator = GetComponent<Animator> ();
+        spriteRenderer = GetComponent<SpriteRenderer> ();
     }
     void Update()
     {
@@ -32,6 +34,15 @@ public class Moviment : MonoBehaviour
         inFloor = Physics2D.OverlapCircle(jumpVerify.position, 0.2f, jumpLayer);
         animator.SetBool(movendoHash, horizontalInput != 0);
         animator.SetBool(pulandoHash, !inFloor);
+
+        if (horizontalInput > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (horizontalInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 
     private void FixedUpdate()
